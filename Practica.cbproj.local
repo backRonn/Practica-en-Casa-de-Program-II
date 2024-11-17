@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/08/23 21:31:28.000.860,=C:\Users\Home\Documents\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
+    <Transaction>2024/08/23 21:31:28.000.890,=C:\Users\Home\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>2024/08/30 21:09:51.000.499,=C:\Users\Home\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>2024/08/30 21:09:51.000.390,=C:\Users\Home\Documents\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
+    <Transaction>2024/08/30 21:28:24.000.564,C:\Users\Home\Documents\Embarcadero\Studio\Projects\Unit3.h=C:\Users\Home\Documents\Practica en Casa de Program II\Practicas.h</Transaction>
+    <Transaction>2024/08/30 21:28:24.000.564,C:\Users\Home\Documents\Embarcadero\Studio\Projects\Unit3.cpp=C:\Users\Home\Documents\Practica en Casa de Program II\Practicas.cpp</Transaction>
+    <Transaction>2024/08/30 21:28:24.000.564,C:\Users\Home\Documents\Embarcadero\Studio\Projects\Unit3.dfm=C:\Users\Home\Documents\Practica en Casa de Program II\Practicas.dfm</Transaction>
+    <Transaction>2024/08/30 21:28:32.000.387,C:\Users\Home\Documents\Embarcadero\Studio\Projects\Project2PCH1.h=C:\Users\Home\Documents\Practica en Casa de Program II\Ejercicios.h</Transaction>
+    <Transaction>2024/08/30 21:28:38.000.347,C:\Users\Home\Documents\Embarcadero\Studio\Projects\Project2.cbproj=C:\Users\Home\Documents\Practica en Casa de Program II\Practica.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>

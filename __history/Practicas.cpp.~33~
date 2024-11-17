@@ -1,0 +1,635 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Practicas.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm3 *Form3;
+//---------------------------------------------------------------------------
+__fastcall TForm3::TForm3(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+/*
+Escribir un algoritmo que devuelva al suma de los
+digitos de un numero
+				Ej= x = 145872=> s = 27
+*/
+byte Sum_Dig(Cardinal x)
+{
+ byte s;
+ if (x < 9) {
+	 s = x;
+ }else{
+	 byte d = x % 10;
+	 s = Sum_Dig(x / 10 );
+	 s = s + d;
+ }
+
+ return s;
+}
+void __fastcall TForm3::SumarDigitos1Click(TObject *Sender)
+{
+Edit2->Text = Sum_Dig(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+/*
+Algoritmo para eliminar el digito 'z' de un numero
+   Ej:  x = 42872981--> del z = 2--> x = 487981
+*/
+void Del_dig(Cardinal &x, byte z)
+{
+ if (x < 10) {
+	 if (x == z) {
+		 x = 0;
+	 }
+ }else{
+	 byte d = x % 10;
+	 x = x / 10;
+	 Del_dig(x,z);
+	 if (d != z) {
+		 x = x * 10 + d;
+	 }
+ }
+}
+void __fastcall TForm3::EliminarDigito1Click(TObject *Sender)
+{
+ Cardinal num;
+ byte del;
+ num = Edit1->Text.ToInt();
+ del = Edit2->Text.ToInt();
+ Del_dig(num,del);
+ Edit3->Text = num;
+}
+//---------------------------------------------------------------------------
+/*
+Escribir una funcion que devuelva la suma
+de los digitos impares
+		Ej: x = 432752 ---> s = 15
+*/
+byte Sum_Dig_Imp(Cardinal x)
+{
+ byte s;
+ if (x < 10) {
+	 if (x % 2 == 1)
+		 s = x;
+ }else{
+	 byte d = x % 10;
+	 x = x / 10;
+	 s = Sum_Dig_Imp(x );
+	 if (d % 2 != 0) {
+		 s = d + s;
+	 }
+ }
+ return s;
+}
+void __fastcall TForm3::SumaDigImp1Click(TObject *Sender)
+{
+Edit2->Text = Sum_Dig_Imp(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcion que devuelva la suma
+de los digitos impares
+		Ej: x = 432752 ---> s = 8
+*/
+byte Sum_Dig_Par(Cardinal x)
+{
+ byte s;
+ if (x < 10) {
+	 if (x % 2 == 0)
+		 s = x;
+ }else{
+	 byte d = x % 10;
+	 x = x / 10;
+	 s = Sum_Dig_Par(x );
+	 if (d % 2 != 1) {
+		 s = d + s;
+	 }
+ }
+ return s;
+}
+void __fastcall TForm3::SumaDigImp2Click(TObject *Sender)
+{
+ Edit2->Text = Sum_Dig_Par(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcion que devuel la diferencia de
+ la suma de los digitos impares menos la suma de
+ los digitos pares
+		Ej: x = 3446758-> 15 - 22--> s = -7
+*/
+short int Dif_ParImp(Cardinal x)
+{
+ short int s;
+ if (x < 10) {
+	 if (x % 2 == 0)
+		 s = -x;
+	 else
+		 s = x;
+
+ }else{
+	 byte d = x % 10;
+	 s = Dif_ParImp(x / 10);
+	 if (d % 2 == 0)
+		 s = s - d;
+	 else
+		 s = s + d;
+  }
+ return s;
+}
+
+
+void __fastcall TForm3::DiferenciaPareImp1Click(TObject *Sender)
+{
+Edit2->Text = Dif_ParImp(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+/*
+ Proceso para eliminar los digitos impares de un
+ numero
+		Ej: x = 34875261 --> x = 4826
+*/
+void Del_digImp(Cardinal &x)
+{
+ if (x < 10) {
+	 if (x % 2 == 1) {
+		 x = 0;
+	 }
+ }else{
+	 byte d = x % 10;
+	 x = x / 10;
+	 Del_digImp(x);
+	 if (d % 2 == 0) {
+		 x = x * 10 + d;
+	 }
+ }
+}
+void __fastcall TForm3::DelDigImp1Click(TObject *Sender)
+{
+ Cardinal num;
+ num = Edit1->Text.ToInt();
+ Del_digImp(num);
+ Edit2->Text = num;
+}
+//---------------------------------------------------------------------------
+/*
+ escribir un algoritmo recursivo que eleve a la
+ potencia 'n' un numero culquiera
+		Ej: x = 2^3 = s = 8
+*/
+Cardinal Potencia(byte x, byte n)
+{
+ Cardinal s;
+ if (n == 0) {
+	 s = 1;
+ }else{
+	 s = Potencia(x,n-1);
+	 s = x*s;
+ }
+
+ return s;
+}
+void __fastcall TForm3::Potencia1Click(TObject *Sender)
+{
+ Edit3->Text = Potencia (StrToInt(Edit1->Text),(StrToInt(Edit2->Text)));
+}
+//---------------------------------------------------------------------------
+/*
+Escriba un proceso para mover el digito mayor
+de un numero dado por teclado
+		Ej: x = 382731--> x = 327318
+*/
+void Mover_Mayor(Cardinal &x)
+{byte dig; byte aux;
+if (x > 9) {
+	dig = x % 10;
+	x = x / 10;
+	Mover_Mayor(x);//hipotesis resuelve 32738
+	if (x % 10 > dig) {
+		aux = x % 10;
+		x = x / 10;
+		x = x * 10 + dig;
+		x = x * 10 + aux;
+	}else{
+        //x = x * 10 + dig;
+    }
+}
+
+}
+void __fastcall TForm3::MayoralFinal1Click(TObject *Sender)
+{
+Cardinal num;
+num = Edit1->Text.ToInt();
+Mover_Mayor(num);
+Edit2->Text = num;
+}
+//---------------------------------------------------------------------------
+//=================CADENAS======================//
+/*
+  Escribir una funcion que devuelva el inverso
+  de una cadena
+			Ej: x = "fiesta" --> x = "atseif"
+*/
+void Inverso(AnsiString &x)
+{
+ byte n = x.Length();
+ if (n > 1) {
+	 char z = x[1];
+	 x = x.Delete(1,1);
+	 Inverso(x);//n - 1 -> tseif
+	 x = x + AnsiString(z);
+ }
+}
+void __fastcall TForm3::Inverso1Click(TObject *Sender)
+{
+ AnsiString Cad;
+ Cad = Edit1->Text;
+ Inverso(Cad);
+ Edit1->Text = Cad;
+}
+//---------------------------------------------------------------------------
+/*
+ Funcion que devuelva la cantidad de vocales
+ que hay en una cadena.
+		Ej:x= Buenas tardes--> s=5
+*/
+bool EsVocal(AnsiString vocal)
+{
+ AnsiString v = "AEIOUaeiou";
+ return v.Pos(vocal)>0;
+}
+byte Cant_Vocales(AnsiString x)
+{
+ byte c;
+ byte n = x.Length();
+ if (n < 2) {
+	 if (EsVocal(x))
+
+		 c++;
+
+ }else{
+	 char z = x[x.Length()];
+	 x = x.Delete(x.Length(),1);
+	 c = Cant_Vocales(x);//Hip n - 1
+	 if (EsVocal(z)) {//resuelvo el que falta
+         c++;
+	 }
+ }
+ return c;
+}
+void __fastcall TForm3::CantidadVocs1Click(TObject *Sender)
+{
+ Edit2->Text = Cant_Vocales((Edit1->Text));
+}
+//---------------------------------------------------------------------------
+/*
+ Funcion que devuelva la cantidad de 'Ò' en una
+ cadena.
+		Ej: x = 'buenas maÒanas'--> s = 1
+*/
+byte Cant—s(AnsiString x)
+{
+ byte s;
+ byte n = x.Length();
+ if (n < 2) {
+	 if ((x == "Ò") || (x == "—"))  {
+		s++;
+	 }
+ }else{
+	 char z = x[1];
+	 x = x.Delete(1,1);
+	 s = Cant—s(x);//hip n - 1
+	 if ((AnsiString(z) == "Ò")||(AnsiString(z) == "—")) {
+		 s++;
+	 }
+ }
+
+ return s;
+}
+void __fastcall TForm3::Cantidads1Click(TObject *Sender)
+{
+ Edit2->Text = Cant—s(Edit1->Text);
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcio que devuelva la cantidad de
+ palabras que hay en una cadena
+		Ej: x = "hola buenas tardes"--> s = 3
+*/
+bool abc(AnsiString x)
+{
+ AnsiString a = "abcdefghijklmnÒopqrstu";
+ return a.Pos(x)>0;
+}
+byte Cant_Pal(AnsiString x)
+{
+ byte s;
+ //x = x.Trim();
+ //x = x.LastDelimiter('b');
+ byte n = x.Length();
+ if (n < 2) {
+	 if (abc(x)) {
+		 s++;
+	 }
+
+ }else{
+	 char z = x[1];
+	 x.Delete(1,1);
+	 s = Cant_Pal(x);//hip n - 1
+	 //x = x[x.Length()];
+	 if (AnsiString(z) == " ") {
+		 s++;
+	 }
+
+ }
+
+ return s;
+}
+void __fastcall TForm3::CantidadPalabras1Click(TObject *Sender)
+{
+ Edit2->Text = Cant_Pal(Edit1->Text);
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcion que devuelva la cantidad
+ de espacios que hay en una cadena
+		Ej: x = "hay una cadena"--> s = 2;
+*/
+byte Cant_Esp(AnsiString x)
+{
+ byte s;
+ if (x == "") {
+	 s=0;
+ }else{
+	 char z = x[1];
+	 x.Delete(1,1);
+	 s = Cant_Esp(x);//hip n - 1
+	 if (z == ' ') {
+		 s++;
+	 }
+ }
+ return s;
+}
+void __fastcall TForm3::CantidaddeEsp1Click(TObject *Sender)
+{
+ Edit2->Text = Cant_Esp(Edit1->Text);
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir un proceso que elimine las vocales de
+ una cadena
+		Ej: x = "buenas tardes"--> x = "bns trds"
+*/
+void Del_Voc(AnsiString &x)
+{
+ byte n = x.Length();
+ if (n < 2) {
+	 if (EsVocal(x)) {
+		 x = "";
+	 }
+ }else{
+	 char z = x[1];
+	 x.Delete(1,1);
+	 Del_Voc(x);//hip n - 1 "bns trd"
+	 if (!EsVocal(z)) {
+		x = AnsiString(z) + x;
+	 }
+ }
+
+}
+void __fastcall TForm3::Eliminarvocales1Click(TObject *Sender)
+{
+ AnsiString Cad;
+ Cad = Edit1->Text;
+ Del_Voc(Cad);
+ Edit2->Text = Cad;
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcion que devuelva la palabra
+ mas larga de una cadena
+	Ej: x = Esta es una prueba mas"->s = "Prueba"
+ */
+AnsiString Pal_Long(AnsiString x)
+{
+ AnsiString lar;
+ x = x.Trim();
+ byte n = x.Length();
+ if (n == 0) {
+	 lar = "";
+ }else{
+	 //LastDelimiter(' ').-delimita conforme a lo
+	 //que nosotros le digamos...en este caso
+	 //esta delimitando hasta el primer espacio('')
+	 //que encuentre.
+	 byte p = x.LastDelimiter(' ');//delimita
+	 //subString.-(desde,hasta),en este caso esta
+	 //agarrando palabra por palabra
+	 AnsiString ultPal = x.SubString(p + 1,n - p);
+	 //setLength(hasta que posision cortamos).-
+	 //en este caso agarra de a una palabra
+	 //para luego pasarlo a la recursiva
+	 x.SetLength(p - 1);
+	 lar = Pal_Long(x);//hip n - 1
+	 //Comparo el tamaÒo de una palabra(ultPal)
+	 //con el tamaÒo de la otra(lar)
+	 if (ultPal.Length() > lar.Length()) {
+		 lar = ultPal;
+	 }
+ }
+
+ return lar;
+}
+void __fastcall TForm3::PalabraLarga1Click(TObject *Sender)
+{
+ Edit2->Text = Pal_Long(Edit1->Text);
+}
+//---------------------------------------------------------------------------
+/*
+ desarrolle un algoritmo que realice la suma de
+ los vectores
+		Ej: x =[1,5,3,7,9,12,4]--> s = 41
+*/
+int Suma_Vectores(TStringGrid *v, Word n)
+{
+ int s;
+ if (n == 0) {
+	 s = 0;
+ }else{
+	 s = Suma_Vectores(v, n - 1);
+	 s = s + StrToInt(v->Cells[n-1][0]);
+ }
+ return s;
+
+}
+void __fastcall TForm3::SumasVectores1Click(TObject *Sender)
+{
+ Edit2->Text = Suma_Vectores(StringGrid1,StrToInt(Edit1->Text));
+}
+//---------------------------------------------------------------------------
+/*
+ funcion busqueda binaria
+  Ej: [1,3,4,5,7,9,14]--> x = 2--> h = faslse
+*/
+bool BusBin(TStringGrid *v, int x, Word a, Word b)
+{
+ bool h; Word n = b - a + 1;
+ if (n == 0) {
+	 h = false;
+ }else if(n == 1){
+	 if (x == StrToInt(v->Cells[a][0])) {
+		 h = true;
+	 }else{
+		 h = false;
+	 }
+ }else{
+	 byte c = (a + b)/2;//calculando la pos. de la casilla
+	 if (StrToInt(v->Cells[c][0])== x) {
+		 h = true;
+	 }else if (x < StrToInt(v->Cells[c][0])) {
+			   h = BusBin(v,x,a,c - 1);//bus en la mitad de la izquierda
+		   }else{
+			   h = BusBin(v,x,c + 1,b);//bus en la mitad de la derecha
+		   }
+ }
+ return h;
+}
+void __fastcall TForm3::BusBinaria1Click(TObject *Sender)
+{
+ bool z;
+ z = BusBin(StringGrid1,StrToInt(Edit2->Text),0,StrToInt(Edit1->Text)- 1);
+ if (z) {
+	 ShowMessage("Si esta en el vector");
+ }else{
+	 ShowMessage("No esta en el vector");
+ }
+}
+//---------------------------------------------------------------------------
+/*
+ Escribir una funcion que devuelva la cantidad de
+ numeros pares que contiene el vector
+	Ej:[2,4,5,12,23,54,3,34,6]-> s = 6
+*/
+
+
+
+void __fastcall TForm3::Edit3Change(TObject *Sender)
+{
+StringGrid1->ColCount = Edit3->Text.ToInt();
+}
+//---------------------------------------------------------------------------
+/*
+  procedimiento para invertir un vector de numeros
+	Ej: v[7,4,2,1,5]->v[5,1,2,4,7]
+*/
+void Inv_Numero(TStringGrid *v, byte a, byte b)
+{
+ byte n = b - a + 1;
+ if (n > 1) {
+	 //hip..k = n - 2 (menos el 1ro y el ultimo)
+	 Inv_Numero(v,a + 1, b - 1);//[1,2,4]
+	 //aux..para tomar el primer valor
+	 String aux = v->Cells[a][0];//aux = a[7]
+	 //resolvemos el 1ro y el ultimo
+	 //el 1ro va al ultimo
+	 v->Cells[a][0] = v->Cells[b][0];//[5,1,2,4]
+	 //el ultimo va al primero
+	 v->Cells[b][0] = aux;//[5,1,2,3,4,7]
+ }
+}
+void Inv2(TStringGrid *v, byte b, byte n)
+//b = pos. final; n = cantidad de datos
+{
+ byte a;//podriamos reemplazar la formula por 'a'
+ //formula a = b - n + 1
+ if (n > 1) {
+	 Inv2(v, b - 1, n - 2);
+	 String aux = v->Cells[b][0];
+	 v->Cells[b][0] = v->Cells[b - n + 1][0];
+	 v->Cells[b - n + 1][0] = aux;
+ }
+}
+void __fastcall TForm3::InvertirNumero1Click(TObject *Sender)
+{
+ //Inv_Numero (StringGrid1, Edit1->Text.ToInt(),Edit2->Text.ToInt());
+ //Edit1 sera la posicion final y edit2 sera canti.
+ Inv2(StringGrid1, Edit1->Text.ToInt(),Edit2->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+/*
+  Escribir una funcion que devuelva la cantidad
+  de numeros pares que contiene el vector
+	Ej: [2,4,5,12,23,54,3,34,6]->s = 6
+*/
+byte Cant_Pares(TStringGrid *v, byte n)
+{
+ byte s;
+ if (n == 0)
+	 throw new Exception("Error: °Elementro neutro!");
+ else if (n == 1) {
+	 if ((v->Cells[n - 1][0]) % 2 == 0)
+		 s++;
+ }else{
+	 s = Cant_Pares(v, n - 1);
+	 if ((v->Cells[n-1][0]) % 2 == 0)
+		 s++;
+ }
+
+ return s;
+}
+void __fastcall TForm3::CantidadPares1Click(TObject *Sender)
+{
+ Edit2->Text = (Cant_Pares(StringGrid1, Edit1->Text.ToInt()));
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm3::Edit4Change(TObject *Sender)
+{
+StringGrid1->ColCount = Edit4->Text.ToInt();
+}
+//---------------------------------------------------------------------------
+/*
+  Escribir un proceso para odenar los elementos
+  de un vector
+		Ej: v[7,1,8,4,2,6]-> v[1,2,4,6,7,8]
+*/
+byte PosMayor(TStringGrid *v, byte a, byte n)
+{
+ byte p;
+ if (n == 0)
+	 throw new Exception("Error:Vector vacio");
+ else if (n == 1)
+		  p = a;
+ else{
+	 p = PosMayor(v,a + 1, n - 1);
+	 if ((v->Cells[a][0]) > (v->Cells[p][0]))
+		 p = a;
+
+ }
+ return p;
+
+}
+void SelSort(TStringGrid *v,byte a, byte n)
+{
+ byte p,b = a + n - 1;
+ if (n > 0) {
+	 p = PosMayor(v,a,n);
+	 String aux = v->Cells[p][0];
+	 v->Cells[p][0] = v->Cells[b][0];
+	 v->Cells[b][0] = aux;
+	 SelSort(v, a, n - 1);
+ }
+}
+void __fastcall TForm3::SelectioSort1Click(TObject *Sender)
+{
+ SelSort(StringGrid1,0,StringGrid1->ColCount);
+}
+//---------------------------------------------------------------------------
+
